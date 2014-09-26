@@ -20,16 +20,21 @@ abstract class FileStoreClient
     public function __construct($servers, $verbose = false)
     {
         $this->servers = $servers;
+        shuffle($this->servers);
         $this->_ch = curl_init();
-        curl_setopt($this->_ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($this->_ch, CURLOPT_FOLLOWLOCATION, false);
+
+        curl_setopt_array($this->_ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_FOLLOWLOCATION => false,
+            CURLOPT_CONNECTTIMEOUT => 1,
+            CURLOPT_TIMEOUT => 3,
+        ]);
 
         if ($verbose) {
             curl_setopt($this->_ch, CURLOPT_VERBOSE, true);
 //            $vb = fopen('php://output', 'rw+');
 //            curl_setopt($this->_ch, CURLOPT_STDERR, $vb);
         }
-
     }
 
     public function delete($container, $prefix, $name, $project)

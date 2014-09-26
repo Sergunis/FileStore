@@ -58,8 +58,16 @@ $app->post('/file/:container/:prefix/:name/:project',
             if (!is_null($file)) {
                 if (in_array($project, (array)$file->projects))
                     throw new FileStoreException('Specified file was exists');
-                else
+                else {
                     $file->addProject($project);
+                    echo json_encode([
+                        'status' => 'success',
+                        'data' => [
+                            '_id' => $file->_id,
+                        ],
+                    ]);
+                    return;
+                }
             }
 
             $file = new \models\File();
@@ -73,7 +81,7 @@ $app->post('/file/:container/:prefix/:name/:project',
             if ($file->save()) {
                 echo json_encode([
                     'status' => 'success',
-                    'data'=>[
+                    'data' => [
                         '_id' => $file->_id,
                     ],
                 ]);
@@ -118,11 +126,11 @@ $app->delete('/file/:container/:prefix/:name/:project', function ($container, $p
             'name' => $name,
         ]);
 
-        if(is_null($file)) {
+        if (is_null($file)) {
             throw new FileStoreException('File not found');
         }
 
-        if($file->removeProject($project)) {
+        if ($file->removeProject($project)) {
             echo json_encode([
                 'status' => 'success',
             ]);

@@ -10,7 +10,7 @@ require 'FileStoreClient.php';
 
 define('VERBOSE', false);
 
-class FileStore extends FileStoreClient
+class FileStoreTestClient extends FileStoreClient
 {
 
     function log($msg, $level = self::LOG_LEVEL_INFO, $category = 'FileStore')
@@ -20,7 +20,7 @@ class FileStore extends FileStoreClient
 }
 
 //$fs = new FileStore(['78.140.175.125:82']);
-$fs = new FileStore(['http://192.168.4.100/fo_manage/scripts/filestore'], VERBOSE);
+$fs = new FileStoreTestClient(['http://127.0.0.1/filestore'], VERBOSE);
 
 echo "Test create: ";
 $status = $fs->create('testContainer', 'testPrefix', 'testName', 'project1', [
