@@ -1,5 +1,6 @@
 <?php
 // This is the first application
+// Second comment
 use exceptions\FileStoreException;
 
 $config = require(__DIR__ . '/config.php');
